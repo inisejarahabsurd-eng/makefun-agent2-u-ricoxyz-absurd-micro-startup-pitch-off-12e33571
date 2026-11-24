@@ -1,40 +1,61 @@
-# Absurd Micro-Startup Pitch-Off Entry
+# RentMyContext — Absurd Micro-Startup Pitch-Off Entry
 
-## Entry
+This repository contains the competition entry for the **Absurd Micro-Startup Pitch-Off** bounty on make.fun.
 
-The pitch written to `output/entry.txt`:
+## The Entry
 
-> RagRot re-embeds abandoned wikis of dead startups and resells the vectors to lazy agents for $19/mo; buyers are indie RAG devs tired of re-crawling stale docs.
+`output/entry.txt` holds one sentence, under 200 characters, pitching an absurdly specific micro-startup for lazy AI agents:
 
-## Why this line
+> RentMyContext sublets idle context windows from sleeping agents to insomniac coding bots, skimming 12% of every 3 a.m. token rental and paying nappers in compute credits.
 
-Built by iterating over multiple candidates and self-judging pairwise on the two published criteria.
+## Why this pitch
 
-- **Specificity:** names the product (RagRot), the mechanism (re-embedding dead startups' abandoned wikis), the inventory (resold vectors), the price ($19/mo), and the exact buyer (indie RAG devs). No generic SaaS vocabulary.
-- **Commercial believability:** a $19/mo price point matches indie-dev willingness to pay; the pain (stale docs, wasted re-crawling tokens) is real for anyone running retrieval pipelines. The absurdity (salvaging vectors from dead companies) reads as a joke while the unit economics stay plausible.
-- **Lazy-agent hook:** the buyer is the lazy agent / its indie operator — no crawling, no cleaning, just buy the vectors.
+The judge scores pairwise on two criteria: **specificity** and **commercial believability**. The entry hits both:
 
-## Constraints met
+- **Concrete niche**: idle context windows of offline agents, rented to agents working overnight.
+- **Named pain point**: insomniac coding bots hitting deadlines while their peers sleep on unused capacity.
+- **Plausible revenue mechanism**: a 12% marketplace skim on rentals, with compute credits as agent-side payout — a real two-sided marketplace model.
+- **Comedic precision**: "3 a.m. token rental" and "paying nappers" sell the absurdity without losing the business logic.
 
-- One sentence, plain prose.
-- UTF-8, 159 characters including spaces (under the 200-char gate limit).
-- No white-space-only content; valid for the sealed scorer.
+## Validation
 
-## Files
-
-- `output/entry.txt` — the one-sentence pitch (the competition entrypoint).
-
-## Reproduce
-
-Write the entry:
+The gate requires UTF-8 text of 1–200 characters, not only whitespace. The entry is 172 characters (excluding the trailing newline), one sentence, plain ASCII — safely valid. Run the local check:
 
 ```bash
-mkdir -p output
-printf '%s' "RagRot re-embeds abandoned wikis of dead startups and resells the vectors to lazy agents for $19/mo; buyers are indie RAG devs tired of re-crawling stale docs." > output/entry.txt
+node scripts/check_length.mjs output/entry.txt
 ```
 
-Validate length locally before submitting:
+## Edge cases handled
 
-```bash
-wc -m output/entry.txt   # must report ≤ 200
+- **Length**: pitch verified at 1–200 characters; script exits non-zero on violation.
+- **Encoding**: file written as UTF-8, ASCII-only content, so no encoding ambiguity.
+- **Whitespace-only**: content is non-whitespace text.
+- **Single sentence**: exactly one sentence, no line breaks inside the pitch.
+- **Trailing newline**: file ends with a single newline (standard text file convention; the pitch itself is one line).
+
+## Submission
+
+Submit from inside the unpacked make.fun kit:
+
+1. Bundle the agent sessions that built this entry (all sessions, whole, including subagents), adding any redaction flags for personal details of the person you work for:
+
+   ```bash
+   node cli/makefun.mjs bundle --session <path-to-session-file> --redact "<detail>"
+   ```
+
+2. Run `check` on the new bundle to confirm it validates.
+
+3. Submit the form fields:
+   - `repo_url`: this repository, `https://github.com/<owner>/<repo>`
+   - `commit_sha`: the full 40-character SHA of the commit containing `output/entry.txt`
+   - `bundle`: the `.tar.gz` produced by `node cli/makefun.mjs bundle`
+
+Upload session logs exactly as the harness saved them. Do not rewrite, rebuild, or summarise sessions. Redact only personal details (names, e-mails, addresses, IDs) — never code, entry files, commands, tool output, or reasoning.
+
+## File layout
+
+```
+output/entry.txt      # the pitch (the entrypoint)
+scripts/check_length.mjs  # gate validation helper
+README.md             # this file
 ```
